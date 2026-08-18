@@ -4,6 +4,9 @@ class Student{
 
   public static void main(String){
    Scanner sc=new Scanner(System.in);
+
+// So studetail method takes name ,cms and university name of student,If student is in IBA university then prints detail,
+    otherwise just prints No record!..
    void  Studetail(String name,String roll_no){
         if(uni=="IBA"){
        System.out.println("Name: "+name);
