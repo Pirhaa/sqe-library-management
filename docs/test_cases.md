@@ -4,7 +4,7 @@
 |----|-------|-------------|----------------|-------|----------|----------|------|
 | TC-001 | Add member with new roll number | addMember() | No member exists with roll number R1 | 1. Call addMember() with roll number R1 | Member is added, returns true | High | Positive |
 | TC-002 | Add member with duplicate roll number | addMember() | Member with roll number R1 already added | 1. Call addMember() again with roll number R1 | Returns false, prints "Roll number already exists" | High | Negative |
-| TC-003 | Add member with blank/invalid roll number | addMember() | No member exists | 1. Call addMember() with empty/invalid roll number | System should reject or handle gracefully (no crash) | Medium | Negative |
+| See Issue #14 | Add member with blank/invalid roll number | addMember() | No member exists | 1. Call addMember() with empty/invalid roll number | System should reject or handle gracefully (no crash) | Medium | Negative |
 | TC-004 | Issue book when book is available | issueBook() | Book is not issued, member has not reached borrow limit | 1. Call issueBook(book, member) | Returns true, book marked as issued, prints "Book issued to [member]" | High | Positive |
 | TC-005 | Issue book that is already issued | issueBook() | Book is already issued to some member | 1. Call issueBook(book, anotherMember) | Returns false, prints "Book is already issued!" | High | Negative |
 | TC-006 | Return book that is currently on loan | returnBook() | Book is issued to member M1 | 1. Call returnBook(book, M1) | Returns true, book marked as not issued, prints "Book returned successfully!" | High | Positive |
