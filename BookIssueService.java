@@ -4,46 +4,62 @@ import java.util.Map;
 public class BookIssueService {
     private Map<String, String> issuedBooks;
     private Map<String, Integer> issueDate;
-    
+
     public BookIssueService() {
         this.issuedBooks = new HashMap<>();
         this.issueDate = new HashMap<>();
     }
-    
+
     public boolean issueBook(Book book, Member member) {
         if (book.isIssued()) {
-            System.out.println("❌ Book is already issued!");
+            System.out.println("Book is already issued!");
             return false;
         }
         if (!member.canBorrow()) {
-            System.out.println("❌ Member reached max books limit!");
+            System.out.println(" Member reached max books limit!");
             return false;
         }
-        
+
         book.setIssued(true);
         issuedBooks.put(book.getBookId(), member.getMemberId());
         issueDate.put(book.getBookId(), 0);
         member.borrowBook(book.getBookId());
-        
-        System.out.println(" Book issued to " + member.getName());
+
+        System.out.println("Book issued to " + member.getName());
         return true;
     }
-    
+
+    public double calculateFine(String bookId) {
+        int daysBorrowed = issueDate.get(bookId);
+        int allowedDays = 14;
+        double finePerDay = 2.0;
+
+        if (daysBorrowed <= allowedDays) {
+            return 0.0;
+        }
+        return (daysBorrowed - allowedDays) * finePerDay;
+    }
+
     public boolean returnBook(Book book, Member member) {
         if (!book.isIssued()) {
-            System.out.println(" Book is not issued!");
+            System.out.println("Book is not issued!");
             return false;
         }
         if (!issuedBooks.get(book.getBookId()).equals(member.getMemberId())) {
-            System.out.println(" Book not issued to this member!");
+            System.out.println("Book not issued to this member!");
             return false;
         }
-        
+
+        double fine = calculateFine(book.getBookId());
+        if (fine > 0) {
+            System.out.println("Fine due: " + fine);
+        }
+
         book.setIssued(false);
         issuedBooks.remove(book.getBookId());
         issueDate.remove(book.getBookId());
         member.returnBook(book.getBookId());
-        
+
         System.out.println("Book returned successfully!");
         return true;
     }
