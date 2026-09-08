@@ -27,9 +27,10 @@ public class Member {
     }
     
     public void borrowBook(String bookId) {
-        if (canBorrow()) {
-            borrowedBooks.add(bookId);
+        if (!canBorrow()) {  
+            throw new IllegalStateException("Cannot borrow more than " + maxBooksAllowed + " books");
         }
+        borrowedBooks.add(bookId);
     }
     
     public void returnBook(String bookId) {
