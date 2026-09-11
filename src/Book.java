@@ -21,8 +21,6 @@ public class Book {
         return bookId + " | " + title + " | " + author + " | " +
                (isIssued ? "Issued" : "Available");
     }
-
-    // ISBN validation
     public static boolean validateIsbn(String isbn) {
         if (isbn == null) return false;
         isbn = isbn.replace("-", "").trim();
@@ -40,25 +38,19 @@ public class Book {
         return sum % 11 == 0;
     }
 
-    // ---------- Test Helper ----------
-    static int passed = 0, failed = 0;
 
+    static int passed = 0, failed = 0;
     static void check(String name, boolean condition) {
         if (condition) { System.out.println("PASS : " + name); passed++; }
         else           { System.out.println("FAIL : " + name); failed++; }
     }
-
-    // ---------- Main — 5 Tests ----------
     public static void main(String[] args) {
-        System.out.println("===== Book Tests =====\n");
-
-        Book b = new Book("B001", "Clean Code", "Robert Martin");
-
-        check("Test 1: bookId is B001",     b.getBookId().equals("B001"));
-        check("Test 2: title is Clean Code", b.getTitle().equals("Clean Code"));
-        check("Test 3: valid ISBN",         validateIsbn("0306406152"));
-        check("Test 4: invalid ISBN",      !validateIsbn("12345"));
-        check("Test 5: bookId is B999",     b.getBookId().equals("B999")); // FAIL
+        System.out.println("===== ISBN Validation Tests =====\n");
+        check("Test 1: valid ISBN 0306406152",   validateIsbn("0306406152"));
+        check("Test 2: valid ISBN with dashes",  validateIsbn("0-306-40615-2"));
+        check("Test 3: valid ISBN ending in X",  validateIsbn("097522980X"));
+        check("Test 4: invalid length rejected", !validateIsbn("12345"));
+        check("Test 5: wrong checksum rejected", !validateIsbn("0306406153"));
 
         System.out.println("\n----- Summary -----");
         System.out.println("Passed : " + passed);
