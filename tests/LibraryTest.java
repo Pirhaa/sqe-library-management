@@ -3,6 +3,8 @@ import static org.junit.Assert.*;
 
 public class LibraryTest {
 
+    // ================= fineTier =================
+
     @Test public void zeroDaysIsNone()        { assertEquals("None",   Library.fineTier(0)); }
     @Test public void oneDayIsLow()           { assertEquals("Low",    Library.fineTier(1)); }
     @Test public void sevenDaysIsLow()        { assertEquals("Low",    Library.fineTier(7)); }
@@ -15,17 +17,18 @@ public class LibraryTest {
     @Test(expected = IllegalArgumentException.class)
     public void negativeDaysThrows()          { Library.fineTier(-1); }
 
-    @Test public void validIsbn()                { assertTrue(Library.validateIsbn("0306406152")); }
-    @Test public void validIsbnWithHyphens()     { assertTrue(Library.validateIsbn("0-306-40615-2")); }
-    @Test public void validIsbnWithSpaces()      { assertTrue(Library.validateIsbn("0 306 40615 2")); }
-    @Test public void validIsbnWithXCheckDigit() { assertTrue(Library.validateIsbn("097522980X")); }
-    @Test public void validIsbnWithLowercaseX()  { assertTrue(Library.validateIsbn("097522980x")); }
+    // ================= validateIsbn  =================
 
-    @Test public void invalidChecksum()          { assertFalse(Library.validateIsbn("0306406153")); }
-    @Test public void tooShort()                 { assertFalse(Library.validateIsbn("12345")); }
-    @Test public void tooLong()                  { assertFalse(Library.validateIsbn("12345678901")); }
-    @Test public void emptyString()              { assertFalse(Library.validateIsbn("")); }
-    @Test public void nonNumeric()               { assertFalse(Library.validateIsbn("abcdefghij")); }
-    @Test public void xInMiddle()                { assertFalse(Library.validateIsbn("0306X06152")); }
-    @Test public void nullInput()                { assertFalse(Library.validateIsbn(null)); }
+    @Test public void valid13DigitIsbn()        { assertTrue(Library.validateIsbn("9780306406157")); }
+    @Test public void valid13DigitWithHyphens() { assertTrue(Library.validateIsbn("978-0-306-40615-7")); }
+    @Test public void valid13DigitWithSpaces()  { assertTrue(Library.validateIsbn("978 0 306 40615 7")); }
+
+    @Test public void emptyString()             { assertFalse(Library.validateIsbn("")); }
+    @Test public void nullInput()               { assertFalse(Library.validateIsbn(null)); }
+    @Test public void length12Invalid()         { assertFalse(Library.validateIsbn("978030640615")); }
+    @Test public void length11Invalid()         { assertFalse(Library.validateIsbn("97803064061")); }
+    @Test public void length14Invalid()         { assertFalse(Library.validateIsbn("97803064061577")); }
+    @Test public void length15Invalid()         { assertFalse(Library.validateIsbn("978030640615777")); }
+    @Test public void containsLetter()          { assertFalse(Library.validateIsbn("978030640615A")); }
+    @Test public void containsSymbol()          { assertFalse(Library.validateIsbn("97803064061@7")); }
 }
