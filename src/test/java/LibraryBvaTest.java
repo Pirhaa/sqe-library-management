@@ -1,105 +1,61 @@
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
 
 /**
- * Lab 6 - Task 2
- * Boundary Value Analysis tests for Library.fineTier()
-
+ * SCOPE EXPLANATION:
+ * - @BeforeClass (MODULE scope): Used for the fine-tier BOUNDARY TABLE,
+ *   which is IMMUTABLE read-only data shared across all tests.
+ * - @Before (FUNCTION scope): Used to reset the pass/fail counters
+ *   before EACH test — counters are MUTABLE state.
  */
 public class LibraryBvaTest {
 
-    /** Helper: prints a boundary line so output is self-explanatory. */
-    private void log(String boundary, int days, String expected, String actual, boolean pass) {
-        System.out.printf(
-            "[BVA fineTier] boundary=%-18s days=%-4d expected=%-8s actual=%-8s -> %s%n",
-            boundary, days, expected, actual, pass ? "PASS" : "FAIL"
-        );
+    private static Object[][] boundaryTable;
+    private int passCount;
+    private int failCount;
+
+    @BeforeClass
+    public static void moduleSetup() {
+        boundaryTable = new Object[][]{
+                {"domain-start", 0,  "None"},
+                {"None|Low",     1,  "Low"},
+                {"Low-max",      7,  "Low"},
+                {"Low|Medium",   8,  "Medium"},
+                {"Medium+1",     9,  "Medium"},
+                {"Medium-max",   14, "Medium"},
+                {"Medium|High",  15, "High"},
+                {"High+1",       16, "High"},
+                {"High-max",     30, "High"},
+                {"High|Severe",  31, "Severe"},
+                {"Severe+1",     32, "Severe"}
+        };
+        System.out.println(">>> @BeforeClass (module scope): " + boundaryTable.length + " rows");
     }
 
- 
+    @Before
+    public void freshCounters() {
+        passCount = 0;
+        failCount = 0;
+    }
+
     @Test(expected = IllegalArgumentException.class)
-    public void boundary_minus1_shouldThrow() {
-        System.out.println("[BVA fineTier] boundary=domain-lower  days=-1   expected=Exception");
+    public void negativeDaysThrows() {
         Library.fineTier(-1);
     }
 
     @Test
-    public void boundary_0_shouldReturnNone() {
-        String actual = Library.fineTier(0);
-        log("domain-start", 0, "None", actual, "None".equals(actual));
-        assertEquals("0 days = no fine tier (domain start)", "None", actual);
-    }
-
-    @Test
-    public void boundary_1_shouldReturnLow() {
-        String actual = Library.fineTier(1);
-        log("None|Low", 1, "Low", actual, "Low".equals(actual));
-        assertEquals("1 day = first value of Low tier", "Low", actual);
-    }
-
-   
-    @Test
-    public void boundary_7_shouldReturnLow() {
-        String actual = Library.fineTier(7);
-        log("Low-max", 7, "Low", actual, "Low".equals(actual));
-        assertEquals("7 days = last value still in Low", "Low", actual);
-    }
-
-    @Test
-    public void boundary_8_shouldReturnMedium() {
-        String actual = Library.fineTier(8);
-        log("Low|Medium", 8, "Medium", actual, "Medium".equals(actual));
-        assertEquals("8 days = first value of Medium", "Medium", actual);
-    }
-
-    @Test
-    public void boundary_9_shouldReturnMedium() {
-        String actual = Library.fineTier(9);
-        log("Medium+1", 9, "Medium", actual, "Medium".equals(actual));
-        assertEquals("9 days = just inside Medium", "Medium", actual);
-    }
-
-
-    @Test
-    public void boundary_14_shouldReturnMedium() {
-        String actual = Library.fineTier(14);
-        log("Medium-max", 14, "Medium", actual, "Medium".equals(actual));
-        assertEquals("14 days = last value still in Medium", "Medium", actual);
-    }
-
-    @Test
-    public void boundary_15_shouldReturnHigh() {
-        String actual = Library.fineTier(15);
-        log("Medium|High", 15, "High", actual, "High".equals(actual));
-        assertEquals("15 days = first value of High tier", "High", actual);
-    }
-
-    @Test
-    public void boundary_16_shouldReturnHigh() {
-        String actual = Library.fineTier(16);
-        log("High+1", 16, "High", actual, "High".equals(actual));
-        assertEquals("16 days = just inside High", "High", actual);
-    }
-
-
-    @Test
-    public void boundary_30_shouldReturnHigh() {
-        String actual = Library.fineTier(30);
-        log("High-max", 30, "High", actual, "High".equals(actual));
-        assertEquals("30 days = last value still in High", "High", actual);
-    }
-
-    @Test
-    public void boundary_31_shouldReturnSevere() {
-        String actual = Library.fineTier(31);
-        log("High|Severe", 31, "Severe", actual, "Severe".equals(actual));
-        assertEquals("31 days = first value of Severe tier", "Severe", actual);
-    }
-
-    @Test
-    public void boundary_32_shouldReturnSevere() {
-        String actual = Library.fineTier(32);
-        log("Severe+1", 32, "Severe", actual, "Severe".equals(actual));
-        assertEquals("32 days = just inside Severe", "Severe", actual);
+    public void allBoundaries() {
+        for (Object[] row : boundaryTable) {
+            String boundary = (String) row[0];
+            int days        = (Integer) row[1];
+            String expected = (String) row[2];
+            String actual   = Library.fineTier(days);
+            System.out.printf("[BVA fineTier] %-18s days=%-4d expected=%-8s actual=%-8s%n",
+                    boundary, days, expected, actual);
+            assertEquals(boundary, expected, actual);
+        }
     }
 }
