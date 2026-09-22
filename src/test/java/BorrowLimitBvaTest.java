@@ -1,75 +1,53 @@
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
+import static org.junit.Assert.*;
 
+/**
+ * Task 1: Fixture Refactor
+ * 
+ * SCOPE EXPLANATION:
+ * - @BeforeClass (MODULE scope): Use for EXPENSIVE, immutable setup 
+ *   shared across all tests (e.g. DB connection, config load).
+ *   Runs ONCE per test class.
+ * - @Before (FUNCTION scope, default): Use when each test needs a 
+ *   FRESH mutable object. Runs before EVERY test.
+ */
 public class BorrowLimitBvaTest {
+
+    private Member member;
+
+    @BeforeClass
+    public static void moduleSetup() {
+        System.out.println(">>> module scope setup: runs once");
+    }
+
+    @Before
+    public void freshMember() {
+        member = new Member("S001", "Ali", "ali@test.com");
+    }
+
+    private void preloadBooks(int n) {
+        for (int i = 1; i <= n; i++) {
+            member.getBorrowedBooks().add("B" + i);
+        }
+    }
 
     @Test
     public void fourBooks_canBorrowOneMore() {
-        Member m = new Member("S001", "Ali", "ali@test.com");
-        m.getBorrowedBooks().add("B1");
-        m.getBorrowedBooks().add("B2");
-        m.getBorrowedBooks().add("B3");
-        m.getBorrowedBooks().add("B4");
-
-        int count = m.getBorrowedBooks().size();
-        boolean actual = m.canBorrow();
-        System.out.printf(
-            "[BVA borrow] preload=%d | canBorrow()=%s | expected=true%n",
-            count, actual);
-
-        assertTrue(
-            "Member with 4 books (below max) SHOULD be allowed to borrow a 5th book",
-            actual);
+        preloadBooks(4);
+        assertTrue(member.canBorrow());
     }
 
-    // ================================================================
-    // Boundary 2: 5 books on loan -> AT the max
-    // Expected (per Lab 5 rule 0-5 valid): canBorrow() should STILL return true
-    // THIS TEST IS EXPECTED TO FAIL -> reveals the off-by-one defect
-    // ================================================================
     @Test
     public void fiveBooks_canBorrowOneMore() {
-        Member m = new Member("S002", "Sara", "sara@test.com");
-        m.getBorrowedBooks().add("B1");
-        m.getBorrowedBooks().add("B2");
-        m.getBorrowedBooks().add("B3");
-        m.getBorrowedBooks().add("B4");
-        m.getBorrowedBooks().add("B5");
-
-        int count = m.getBorrowedBooks().size();
-        boolean actual = m.canBorrow();
-        System.out.printf(
-            "[BVA borrow] preload=%d | canBorrow()=%s | expected=true%n",
-            count, actual);
-
-        assertTrue(
-            "Member with 5 books (AT max per Lab 5: 0-5 valid) SHOULD be allowed to borrow a 6th book",
-            actual);
+        preloadBooks(5);
+        assertTrue(member.canBorrow());
     }
 
-    // ================================================================
-    // Boundary 3: 6 books on loan -> one OVER the max
-    // Expected: canBorrow() should return false
-    // ================================================================
     @Test
     public void sixBooks_cannotBorrowOneMore() {
-        Member m = new Member("S003", "Hina", "hina@test.com");
-        m.getBorrowedBooks().add("B1");
-        m.getBorrowedBooks().add("B2");
-        m.getBorrowedBooks().add("B3");
-        m.getBorrowedBooks().add("B4");
-        m.getBorrowedBooks().add("B5");
-        m.getBorrowedBooks().add("B6");
-
-        int count = m.getBorrowedBooks().size();
-        boolean actual = m.canBorrow();
-        System.out.printf(
-            "[BVA borrow] preload=%d | canBorrow()=%s | expected=false%n",
-            count, actual);
-
-        assertFalse(
-            "Member with 6 books (OVER max) should NOT be allowed to borrow a 7th book",
-            actual);
+        preloadBooks(6);
+        assertFalse(member.canBorrow());
     }
 }
