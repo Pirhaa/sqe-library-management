@@ -1,55 +1,51 @@
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 /**
- * Lab 6 - Task 4
- * Boundary Value Analysis tests for Library.validateIsbn().
- *
- * Rule: valid ISBN = exactly 13 numeric digits (hyphens/spaces stripped).
- * Boundaries: 11, 12, 13, 14, 15 digits.
+ * SCOPE EXPLANATION:
+ * - @BeforeClass (MODULE scope): Used for IMMUTABLE shared test data
+ *   (here: valid/invalid ISBN arrays). Loaded ONCE for the class.
+ * - No @Before needed: Library.validateIsbn() is STATIC with no
+ *   mutable state, so a per-test fixture would add only noise.
  */
 public class IsbnBvaTest {
 
-    // 11 digits -> below minimum, must be rejected
-    @Test
-    public void elevenDigits_shouldBeRejected() {
-        assertFalse(Library.validateIsbn("97803064061"));
+    private static String[] validIsbns;
+    private static String[] invalidIsbns;
+
+    @BeforeClass
+    public static void moduleSetup() {
+        validIsbns = new String[]{
+                "9780306406157",
+                "978-0-306-40615-7",
+                "978 0 306 40615 7"
+        };
+        invalidIsbns = new String[]{
+                "97803064061",      // 11 digits
+                "978030640615",     // 12 digits
+                "97803064061577",   // 14 digits
+                "978030640615777",  // 15 digits
+                "978030640615A",    // letter
+                "97803064061@7",    // symbol
+                "",                 // empty
+                null                // null
+        };
+        System.out.println(">>> @BeforeClass (module scope): loaded ISBN fixtures");
     }
 
-    // 12 digits -> one below minimum, must be rejected
-    @Test
-    public void twelveDigits_shouldBeRejected() {
-        assertFalse(Library.validateIsbn("978030640615"));
-    }
+    @Test public void valid13Digit()           { assertTrue(Library.validateIsbn(validIsbns[0])); }
+    @Test public void validWithHyphens()       { assertTrue(Library.validateIsbn(validIsbns[1])); }
+    @Test public void validWithSpaces()        { assertTrue(Library.validateIsbn(validIsbns[2])); }
 
-    // 13 digits -> exactly at boundary, must be accepted
-    @Test
-    public void thirteenDigits_shouldBeAccepted() {
-        assertTrue(Library.validateIsbn("9780306406157"));
-    }
-
-    // 14 digits -> one above maximum, must be rejected
-    @Test
-    public void fourteenDigits_shouldBeRejected() {
-        assertFalse(Library.validateIsbn("97803064061577"));
-    }
-
-    // 15 digits -> above maximum, must be rejected
-    @Test
-    public void fifteenDigits_shouldBeRejected() {
-        assertFalse(Library.validateIsbn("978030640615777"));
-    }
-
-    // null input -> domain edge, must be rejected
-    @Test
-    public void nullInput_shouldBeRejected() {
-        assertFalse(Library.validateIsbn(null));
-    }
-
-    // empty input -> domain edge, must be rejected
-    @Test
-    public void emptyInput_shouldBeRejected() {
-        assertFalse(Library.validateIsbn(""));
-    }
+    @Test public void elevenDigitsRejected()   { assertFalse(Library.validateIsbn(invalidIsbns[0])); }
+    @Test public void twelveDigitsRejected()   { assertFalse(Library.validateIsbn(invalidIsbns[1])); }
+    @Test public void fourteenDigitsRejected() { assertFalse(Library.validateIsbn(invalidIsbns[2])); }
+    @Test public void fifteenDigitsRejected()  { assertFalse(Library.validateIsbn(invalidIsbns[3])); }
+    @Test public void letterRejected()         { assertFalse(Library.validateIsbn(invalidIsbns[4])); }
+    @Test public void symbolRejected()         { assertFalse(Library.validateIsbn(invalidIsbns[5])); }
+    @Test public void emptyRejected()          { assertFalse(Library.validateIsbn(invalidIsbns[6])); }
+    @Test public void nullRejected()           { assertFalse(Library.validateIsbn(invalidIsbns[7])); }
 }
