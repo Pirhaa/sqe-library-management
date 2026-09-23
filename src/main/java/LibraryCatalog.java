@@ -1,35 +1,45 @@
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * LibraryCatalog — instance-based catalog of books.
- * Added for Lab 7 so we have a mutable object to test.
- */
 public class LibraryCatalog {
 
     private final List<Book> books = new ArrayList<>();
 
-    /** Add a book to the catalog. */
     public void addBook(Book book) {
         books.add(book);
     }
 
-    /** Read-only view of all books. */
     public List<Book> getBooks() {
         return books;
     }
 
     /**
-     * TASK 2 — sum of available books across the catalog.
-     * A book is "available" if it is NOT currently issued.
+     * Task 2 — sum of available books in the catalog.
      */
     public int totalAvailableCopies() {
         int count = 0;
         for (Book b : books) {
-            if (!b.isIssued()) {
-                count++;
-            }
+            if (!b.isIssued()) count++;
         }
         return count;
+    }
+
+    /**
+     * TASK 3 — write the catalog to a file.
+     * Wraps IOException into LibraryIOException (custom exception)
+     * so the raw IOException does not leak out.
+     */
+    public void exportCatalog(String path) throws LibraryIOException {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(path))) {
+            for (Book b : books) {
+                writer.write(b.toString());
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            throw new LibraryIOException("Failed to export catalog to " + path, e);
+        }
     }
 }
