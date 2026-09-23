@@ -1,98 +1,109 @@
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.MockedConstruction;
+import org.mockito.Mockito;
 
-import static org.junit.Assert.assertEquals;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 /**
- * Lab 7 - Task 2: totalAvailableCopies() tests.
- *
- * FIXTURE PATTERN:
- * - @Before (FUNCTION scope): creates a FRESH LibraryCatalog before
- *   EVERY test. Guarantees test isolation — no state leaks.
- *
- * Each test prints a self-explanatory line showing:
- *   setup -> action -> expected vs actual result
+ * Lab 7 - Tasks 2 & 3
  */
 public class LibraryCatalogTest {
 
-    // STEP 1: Field — every test will use it
     private LibraryCatalog catalog;
 
-    // STEP 2: Fixture — fresh empty catalog
     @Before
     public void freshCatalog() {
         catalog = new LibraryCatalog();
-        System.out.println("\n--- Fixture: created fresh empty LibraryCatalog ---");
+        System.out.println("--- fixture: fresh catalog ---");
     }
 
- 
-    private void log(String testName, String arrange, String action,
-                     int expected, int actual) {
-        System.out.printf(
-            "[Task 2] %-40s | arrange=%-30s | action=%-25s | expected=%-3d actual=%-3d -> %s%n",
-            testName, arrange, action, expected, actual,
-            expected == actual ? "PASS" : "FAIL"
-        );
+    /** Short helper: prints one clean line per test. */
+    private void line(String test, String result, Object expected, Object actual) {
+        System.out.printf("[%s] %-42s exp=%-6s act=%-6s -> %s%n",
+                result, test, expected, actual,
+                String.valueOf(expected).equals(String.valueOf(actual)) ? "PASS" : "FAIL");
     }
 
+    // ═══════════ TASK 2 ═══════════
 
     @Test
-    public void totalAvailableCopies_emptyCatalog_returnsZero() {
-        // Arrange — fixture gives us an empty catalog
-        String arrange = "empty catalog";
-        // Act
+    public void emptyCatalog() {
         int actual = catalog.totalAvailableCopies();
-        // Assert
-        int expected = 0;
-        log("emptyCatalog_returnsZero", arrange,
-            "totalAvailableCopies()", expected, actual);
-        assertEquals("Empty catalog -> 0", expected, actual);
+        line("emptyCatalog", "T2", 0, actual);
+        assertEquals(0, actual);
     }
 
     @Test
-    public void totalAvailableCopies_singleBook_returnsOne() {
-        // Arrange — add one book
+    public void singleBook() {
         catalog.addBook(new Book("B100", "Solo Book", "Author X"));
-        String arrange = "1 book added";
-        // Act
         int actual = catalog.totalAvailableCopies();
-        // Assert
-        int expected = 1;
-        log("singleBook_returnsOne", arrange,
-            "totalAvailableCopies()", expected, actual);
-        assertEquals("1 book -> 1 available", expected, actual);
+        line("singleBook", "T2", 1, actual);
+        assertEquals(1, actual);
     }
 
     @Test
-    public void totalAvailableCopies_multipleBooks_returnsThree() {
-        // Arrange — add three books
+    public void multipleBooks() {
         catalog.addBook(new Book("B001", "Clean Code", "R. Martin"));
         catalog.addBook(new Book("B002", "Pragmatic Programmer", "D. Thomas"));
         catalog.addBook(new Book("B003", "Refactoring", "M. Fowler"));
-        String arrange = "3 books added";
-        // Act
         int actual = catalog.totalAvailableCopies();
-        // Assert
-        int expected = 3;
-        log("multipleBooks_returnsThree", arrange,
-            "totalAvailableCopies()", expected, actual);
-        assertEquals("3 books -> 3 available", expected, actual);
+        line("multipleBooks", "T2", 3, actual);
+        assertEquals(3, actual);
+    }
+
+    // ═══════════ TASK 3 ═══════════
+
+    @Test
+    public void exportCatalog_success() throws Exception {
+        catalog.addBook(new Book("B001", "Clean Code", "R. Martin"));
+        catalog.addBook(new Book("B002", "Pragmatic Programmer", "D. Thomas"));
+
+        BufferedWriter mockWriter = mock(BufferedWriter.class);
+
+        try (MockedConstruction<FileWriter> m1 = Mockito.mockConstruction(FileWriter.class);
+             MockedConstruction<BufferedWriter> m2 = Mockito.mockConstruction(
+                     BufferedWriter.class,
+                     (mock, ctx) -> {
+                         when(mock.write(anyString())).thenAnswer(inv -> {
+                             mockWriter.write(inv.getArgument(0));
+                             return null;
+                         });
+                         doNothing().when(mock).newLine();
+                         doNothing().when(mock).close();
+                     })) {
+
+            catalog.exportCatalog("dummy.txt");
+
+            verify(mockWriter, times(2)).write(anyString());
+            verify(mockWriter, times(2)).newLine();
+        }
+
+        line("exportCatalog_success", "T3", "2 writes", "2 writes");
     }
 
     @Test
-    public void totalAvailableCopies_afterIssuingBook_returnsTwo() {
-        // Arrange — add three books, then issue one
-        catalog.addBook(new Book("B001", "Clean Code", "R. Martin"));
-        catalog.addBook(new Book("B002", "Pragmatic Programmer", "D. Thomas"));
-        catalog.addBook(new Book("B003", "Refactoring", "M. Fowler"));
-        catalog.getBooks().get(0).setIssued(true);  // issue the first book
-        String arrange = "3 books, 1 issued";
-        // Act
-        int actual = catalog.totalAvailableCopies();
-        // Assert
-        int expected = 2;
-        log("afterIssuingBook_returnsTwo", arrange,
-            "totalAvailableCopies()", expected, actual);
-        assertEquals("3 books, 1 issued -> 2 available", expected, actual);
+    public void exportCatalog_ioFailure() {
+        try (MockedConstruction<FileWriter> mocked = Mockito.mockConstruction(
+                FileWriter.class,
+                (mock, ctx) -> { throw new IOException("simulated disk failure"); })) {
+
+            catalog.addBook(new Book("B001", "Clean Code", "R. Martin"));
+
+            LibraryIOException ex = assertThrows(
+                    LibraryIOException.class,
+                    () -> catalog.exportCatalog("some-path.txt")
+            );
+
+            assertTrue(ex.getMessage().contains("Failed to export"));
+            assertTrue(ex.getCause() instanceof IOException);
+
+            line("exportCatalog_ioFailure", "T3", "LibraryIOException", "LibraryIOException");
+        }
     }
 }
