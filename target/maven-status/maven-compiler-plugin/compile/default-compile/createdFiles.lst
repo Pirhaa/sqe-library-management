@@ -2,6 +2,7 @@ BookIdGenerator.class
 BookIssueService.class
 BookSearch.class
 Member.class
+LibraryCatalog.class
 MemberManagement.class
 Library.class
 Book.class
