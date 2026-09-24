@@ -1,4 +1,5 @@
 IsbnBvaTest.class
+LibraryCatalogParamTest.class
 LibraryCatalogTest.class
 LibraryTest.class
 BorrowLimitBvaTest.class

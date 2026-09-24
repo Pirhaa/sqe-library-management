@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="LibraryTest" time="0.041" tests="13" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="LibraryCatalogParamTest" time="0.038" tests="7" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="21"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -58,20 +58,32 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="65.0"/>
   </properties>
-  <testcase name="length11Rejected" classname="LibraryTest" time="0.002">
-    <system-out><![CDATA[>>> @BeforeClass (module scope): loaded fine-tier boundaries
+  <testcase name="borrowBook_edgeCases[case 0: id=&apos;B001&apos; -&gt; true]" classname="LibraryCatalogParamTest" time="0.015">
+    <system-out><![CDATA[[Task 4] bookId='B001' | expected=true  | actual=true  | PASS
 ]]></system-out>
   </testcase>
-  <testcase name="letterRejected" classname="LibraryTest" time="0.002"/>
-  <testcase name="symbolRejected" classname="LibraryTest" time="0.004"/>
-  <testcase name="nullRejected" classname="LibraryTest" time="0.001"/>
-  <testcase name="valid13Digit" classname="LibraryTest" time="0.002"/>
-  <testcase name="allFineTierBoundaries" classname="LibraryTest" time="0.003"/>
-  <testcase name="validWithSpaces" classname="LibraryTest" time="0.001"/>
-  <testcase name="length15Rejected" classname="LibraryTest" time="0.002"/>
-  <testcase name="validWithHyphens" classname="LibraryTest" time="0.004"/>
-  <testcase name="negativeDaysThrows" classname="LibraryTest" time="0.001"/>
-  <testcase name="emptyRejected" classname="LibraryTest" time="0.001"/>
-  <testcase name="length12Rejected" classname="LibraryTest" time="0.001"/>
-  <testcase name="length14Rejected" classname="LibraryTest" time="0.001"/>
+  <testcase name="borrowBook_edgeCases[case 1: id=&apos;B002&apos; -&gt; true]" classname="LibraryCatalogParamTest" time="0.002">
+    <system-out><![CDATA[[Task 4] bookId='B002' | expected=true  | actual=true  | PASS
+]]></system-out>
+  </testcase>
+  <testcase name="borrowBook_edgeCases[case 2: id=&apos;B003&apos; -&gt; true]" classname="LibraryCatalogParamTest" time="0.002">
+    <system-out><![CDATA[[Task 4] bookId='B003' | expected=true  | actual=true  | PASS
+]]></system-out>
+  </testcase>
+  <testcase name="borrowBook_edgeCases[case 3: id=&apos;B999&apos; -&gt; false]" classname="LibraryCatalogParamTest" time="0.002">
+    <system-out><![CDATA[[Task 4] bookId='B999' | expected=false | actual=false | PASS
+]]></system-out>
+  </testcase>
+  <testcase name="borrowBook_edgeCases[case 4: id=&apos;&apos; -&gt; false]" classname="LibraryCatalogParamTest" time="0.001">
+    <system-out><![CDATA[[Task 4] bookId=''     | expected=false | actual=false | PASS
+]]></system-out>
+  </testcase>
+  <testcase name="borrowBook_edgeCases[case 5: id=&apos;b001&apos; -&gt; false]" classname="LibraryCatalogParamTest" time="0.001">
+    <system-out><![CDATA[[Task 4] bookId='b001' | expected=false | actual=false | PASS
+]]></system-out>
+  </testcase>
+  <testcase name="borrowBook_edgeCases[case 6: id=&apos;B0001&apos; -&gt; false]" classname="LibraryCatalogParamTest" time="0.001">
+    <system-out><![CDATA[[Task 4] bookId='B0001' | expected=false | actual=false | PASS
+]]></system-out>
+  </testcase>
 </testsuite>

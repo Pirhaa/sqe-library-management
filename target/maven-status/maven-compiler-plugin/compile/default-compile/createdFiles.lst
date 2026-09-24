@@ -1,4 +1,5 @@
 BookIdGenerator.class
+LibraryIOException.class
 BookIssueService.class
 BookSearch.class
 Member.class

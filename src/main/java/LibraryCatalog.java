@@ -28,7 +28,7 @@ public class LibraryCatalog {
     }
 
     /**
-     * Task 4 - borrow a book by its ID.
+     * Task 4 - borrow a book by its ID (catalog-level shortcut).
      * Returns true if borrowed successfully, false otherwise.
      */
     public boolean borrowBook(String bookId) {
@@ -45,7 +45,6 @@ public class LibraryCatalog {
 
     /**
      * Task 3 - write the catalog to a file.
-     * Wraps IOException into LibraryIOException.
      */
     public void exportCatalog(String path) throws LibraryIOException {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(path))) {

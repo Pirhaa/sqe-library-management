@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="LibraryCatalogTest" time="0.018" tests="4" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="LibraryCatalogTest" time="1.652" tests="5" errors="0" skipped="0" failures="1">
   <properties>
     <property name="java.specification.version" value="21"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -15,7 +15,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="US"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-21\bin"/>
-    <property name="sun.java.command" value="C:\Users\user\AppData\Local\Temp\surefire17694993699216077995\surefirebooter-20260923094507000_3.jar C:\Users\user\AppData\Local\Temp\surefire17694993699216077995 2026-09-23T09-45-06_695-jvmRun1 surefire-20260923094507000_1tmp surefire_0-20260923094507000_2tmp"/>
+    <property name="sun.java.command" value="C:\Users\user\AppData\Local\Temp\surefire10117719257432694819\surefirebooter-20260925035958597_3.jar C:\Users\user\AppData\Local\Temp\surefire10117719257432694819 2026-09-25T03-59-58_357-jvmRun1 surefire-20260925035958597_1tmp surefire_0-20260925035958597_2tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="D:\Doc material\5th semester\SQE Lab\sqe-library-management\target\test-classes;D:\Doc material\5th semester\SQE Lab\sqe-library-management\target\classes;C:\Users\user\.m2\repository\junit\junit\4.13.2\junit-4.13.2.jar;C:\Users\user\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;C:\Users\user\.m2\repository\org\junit\jupiter\junit-jupiter\5.10.0\junit-jupiter-5.10.0.jar;C:\Users\user\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.10.0\junit-jupiter-api-5.10.0.jar;C:\Users\user\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\user\.m2\repository\org\junit\platform\junit-platform-commons\1.10.0\junit-platform-commons-1.10.0.jar;C:\Users\user\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.10.0\junit-jupiter-params-5.10.0.jar;C:\Users\user\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.10.0\junit-jupiter-engine-5.10.0.jar;C:\Users\user\.m2\repository\org\junit\vintage\junit-vintage-engine\5.10.0\junit-vintage-engine-5.10.0.jar;C:\Users\user\.m2\repository\org\junit\platform\junit-platform-engine\1.10.0\junit-platform-engine-1.10.0.jar;C:\Users\user\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\user\.m2\repository\org\mockito\mockito-core\5.5.0\mockito-core-5.5.0.jar;C:\Users\user\.m2\repository\net\bytebuddy\byte-buddy\1.14.6\byte-buddy-1.14.6.jar;C:\Users\user\.m2\repository\net\bytebuddy\byte-buddy-agent\1.14.6\byte-buddy-agent-1.14.6.jar;C:\Users\user\.m2\repository\org\objenesis\objenesis\3.3\objenesis-3.3.jar;C:\Users\user\.m2\repository\org\mockito\mockito-junit-jupiter\5.5.0\mockito-junit-jupiter-5.5.0.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -30,7 +30,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="C:\Users\user\AppData\Local\Temp\surefire17694993699216077995\surefirebooter-20260923094507000_3.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\user\AppData\Local\Temp\surefire10117719257432694819\surefirebooter-20260925035958597_3.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="21.0.6+8-LTS-188"/>
@@ -58,28 +58,52 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="65.0"/>
   </properties>
-  <testcase name="totalAvailableCopies_afterIssuingBook_returnsTwo" classname="LibraryCatalogTest" time="0.009">
-    <system-out><![CDATA[
---- Fixture: created fresh empty LibraryCatalog ---
-[Task 2] afterIssuingBook_returnsTwo              | arrange=3 books, 1 issued              | action=totalAvailableCopies()    | expected=2   actual=2   -> PASS
+  <testcase name="multipleBooks" classname="LibraryCatalogTest" time="0.002">
+    <system-out><![CDATA[--- fixture: fresh catalog ---
+[T2] multipleBooks                exp=3          act=3          -> PASS
 ]]></system-out>
   </testcase>
-  <testcase name="totalAvailableCopies_singleBook_returnsOne" classname="LibraryCatalogTest" time="0.002">
-    <system-out><![CDATA[
---- Fixture: created fresh empty LibraryCatalog ---
-[Task 2] singleBook_returnsOne                    | arrange=1 book added                   | action=totalAvailableCopies()    | expected=1   actual=1   -> PASS
+  <testcase name="emptyCatalog" classname="LibraryCatalogTest" time="0.002">
+    <system-out><![CDATA[--- fixture: fresh catalog ---
+[T2] emptyCatalog                 exp=0          act=0          -> PASS
 ]]></system-out>
   </testcase>
-  <testcase name="totalAvailableCopies_multipleBooks_returnsThree" classname="LibraryCatalogTest" time="0.002">
-    <system-out><![CDATA[
---- Fixture: created fresh empty LibraryCatalog ---
-[Task 2] multipleBooks_returnsThree               | arrange=3 books added                  | action=totalAvailableCopies()    | expected=3   actual=3   -> PASS
+  <testcase name="singleBook" classname="LibraryCatalogTest" time="0.007">
+    <system-out><![CDATA[--- fixture: fresh catalog ---
+[T2] singleBook                   exp=1          act=1          -> PASS
 ]]></system-out>
   </testcase>
-  <testcase name="totalAvailableCopies_emptyCatalog_returnsZero" classname="LibraryCatalogTest" time="0.002">
-    <system-out><![CDATA[
---- Fixture: created fresh empty LibraryCatalog ---
-[Task 2] emptyCatalog_returnsZero                 | arrange=empty catalog                  | action=totalAvailableCopies()    | expected=0   actual=0   -> PASS
+  <testcase name="exportCatalog_ioFailure" classname="LibraryCatalogTest" time="1.393">
+    <failure message="unexpected exception type thrown; expected:&lt;LibraryIOException&gt; but was:&lt;org.mockito.exceptions.base.MockitoException&gt;" type="java.lang.AssertionError"><![CDATA[java.lang.AssertionError: unexpected exception type thrown; expected:<LibraryIOException> but was:<org.mockito.exceptions.base.MockitoException>
+	at org.junit.Assert.assertThrows(Assert.java:1020)
+	at org.junit.Assert.assertThrows(Assert.java:981)
+	at LibraryCatalogTest.exportCatalog_ioFailure(LibraryCatalogTest.java:121)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+Caused by: org.mockito.exceptions.base.MockitoException: Could not initialize mocked construction
+	at java.base/java.io.FileWriter.<init>(FileWriter.java)
+	at LibraryCatalog.exportCatalog(LibraryCatalog.java:51)
+	at LibraryCatalogTest.lambda$exportCatalog_ioFailure$2(LibraryCatalogTest.java:123)
+	at org.junit.Assert.assertThrows(Assert.java:1001)
+	... 3 more
+Caused by: java.io.IOException: simulated disk failure
+	at LibraryCatalogTest.lambda$exportCatalog_ioFailure$1(LibraryCatalogTest.java:116)
+	at org.mockito.internal.creation.bytebuddy.InlineDelegateByteBuddyMockMaker$InlineConstructionMockControl.lambda$enable$0(InlineDelegateByteBuddyMockMaker.java:771)
+	at org.mockito.internal.creation.bytebuddy.InlineDelegateByteBuddyMockMaker.lambda$new$3(InlineDelegateByteBuddyMockMaker.java:309)
+	at org.mockito.internal.creation.bytebuddy.MockMethodAdvice.handleConstruction(MockMethodAdvice.java:159)
+	at org.mockito.internal.creation.bytebuddy.inject.MockMethodDispatcher.handleConstruction(MockMethodDispatcher.java:71)
+	... 7 more
+]]></failure>
+    <system-out><![CDATA[--- fixture: fresh catalog ---
+]]></system-out>
+    <system-err><![CDATA[WARNING: A Java agent has been loaded dynamically (C:\Users\user\.m2\repository\net\bytebuddy\byte-buddy-agent\1.14.6\byte-buddy-agent-1.14.6.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+]]></system-err>
+  </testcase>
+  <testcase name="exportCatalog_success" classname="LibraryCatalogTest" time="0.234">
+    <system-out><![CDATA[--- fixture: fresh catalog ---
+[T3] exportCatalog_success        exp=2 writes   act=2 writes   -> PASS
 ]]></system-out>
   </testcase>
 </testsuite>
