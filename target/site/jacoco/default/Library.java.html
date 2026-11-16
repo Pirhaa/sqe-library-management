@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Library.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">sqe-library-management</a> &gt; <a href="index.source.html" class="el_package">default</a> &gt; <span class="el_source">Library.java</span></div><h1>Library.java</h1><pre class="source lang-java linenums"><span class="nc" id="L1">public class Library {</span>
+
+    public static String fineTier(int daysOverdue) {
+<span class="fc bfc" id="L4" title="All 2 branches covered.">        if (daysOverdue &lt; 0) {</span>
+<span class="fc" id="L5">            throw new IllegalArgumentException(&quot;Days overdue cannot be negative&quot;);</span>
+        }
+<span class="fc bfc" id="L7" title="All 2 branches covered.">        if (daysOverdue == 0) {</span>
+<span class="fc" id="L8">            return &quot;None&quot;;</span>
+<span class="pc bpc" id="L9" title="1 of 4 branches missed.">        } else if (daysOverdue &gt;= 1 &amp;&amp; daysOverdue &lt;= 7) {</span>
+<span class="fc" id="L10">            return &quot;Low&quot;;</span>
+<span class="pc bpc" id="L11" title="1 of 4 branches missed.">        } else if (daysOverdue &gt;= 8 &amp;&amp; daysOverdue &lt;= 14) {</span>
+<span class="fc" id="L12">            return &quot;Medium&quot;;</span>
+<span class="pc bpc" id="L13" title="1 of 4 branches missed.">        } else if (daysOverdue &gt;= 15 &amp;&amp; daysOverdue &lt;= 30) {</span>
+<span class="fc" id="L14">            return &quot;High&quot;;</span>
+        } else {
+<span class="fc" id="L16">            return &quot;Severe&quot;;</span>
+        }
+    }
+
+    // Lab 5 rule: exactly 13 numeric digits, no letters or symbols.
+    public static boolean validateIsbn(String isbn) {
+<span class="fc bfc" id="L22" title="All 2 branches covered.">        if (isbn == null) return false;</span>
+<span class="fc" id="L23">        String s = isbn.replace(&quot;-&quot;, &quot;&quot;).replace(&quot; &quot;, &quot;&quot;);</span>
+<span class="fc bfc" id="L24" title="All 2 branches covered.">        if (s.length() != 13) return false;</span>
+<span class="fc bfc" id="L25" title="All 2 branches covered.">        for (int i = 0; i &lt; 13; i++) {</span>
+<span class="fc bfc" id="L26" title="All 2 branches covered.">            if (!Character.isDigit(s.charAt(i))) return false;</span>
+        }
+<span class="fc" id="L28">        return true;</span>
+    }
+
+    public static void main(String[] args) {
+<span class="nc" id="L32">        System.out.println(&quot;=== Manual Testing: fineTier ===\n&quot;);</span>
+<span class="nc" id="L33">        System.out.println(&quot;fineTier(0)  = &quot; + fineTier(0));</span>
+<span class="nc" id="L34">        System.out.println(&quot;fineTier(20) = &quot; + fineTier(20));</span>
+<span class="nc" id="L35">        System.out.println(&quot;fineTier(45) = &quot; + fineTier(45));</span>
+
+        try {
+<span class="nc" id="L38">            System.out.println(&quot;fineTier(-3) = &quot; + fineTier(-3));</span>
+<span class="nc" id="L39">        } catch (IllegalArgumentException e) {</span>
+<span class="nc" id="L40">            System.out.println(&quot;fineTier(-3) = Exception: &quot; + e.getMessage());</span>
+        }
+
+<span class="nc" id="L43">        System.out.println(&quot;fineTier(1)  = &quot; + fineTier(1));</span>
+<span class="nc" id="L44">        System.out.println(&quot;fineTier(7)  = &quot; + fineTier(7));</span>
+<span class="nc" id="L45">        System.out.println(&quot;fineTier(8)  = &quot; + fineTier(8));</span>
+<span class="nc" id="L46">        System.out.println(&quot;fineTier(14) = &quot; + fineTier(14));</span>
+<span class="nc" id="L47">        System.out.println(&quot;fineTier(15) = &quot; + fineTier(15));</span>
+<span class="nc" id="L48">        System.out.println(&quot;fineTier(30) = &quot; + fineTier(30));</span>
+<span class="nc" id="L49">        System.out.println(&quot;fineTier(31) = &quot; + fineTier(31));</span>
+
+<span class="nc" id="L51">        System.out.println(&quot;\n=== Manual Testing: validateIsbn ===\n&quot;);</span>
+<span class="nc" id="L52">        System.out.println(&quot;validateIsbn(\&quot;9780306406157\&quot;)    = &quot; + validateIsbn(&quot;9780306406157&quot;));</span>
+<span class="nc" id="L53">        System.out.println(&quot;validateIsbn(\&quot;978-0-306-40615-7\&quot;) = &quot; + validateIsbn(&quot;978-0-306-40615-7&quot;));</span>
+<span class="nc" id="L54">        System.out.println(&quot;validateIsbn(\&quot;97803064061\&quot;)      = &quot; + validateIsbn(&quot;97803064061&quot;));</span>
+<span class="nc" id="L55">        System.out.println(&quot;validateIsbn(\&quot;97803064061577\&quot;)   = &quot; + validateIsbn(&quot;97803064061577&quot;));</span>
+<span class="nc" id="L56">        System.out.println(&quot;validateIsbn(\&quot;978030640615A\&quot;)    = &quot; + validateIsbn(&quot;978030640615A&quot;));</span>
+<span class="nc" id="L57">        System.out.println(&quot;validateIsbn(\&quot;\&quot;)                 = &quot; + validateIsbn(&quot;&quot;));</span>
+<span class="nc" id="L58">        System.out.println(&quot;validateIsbn(null)                = &quot; + validateIsbn(null));</span>
+
+<span class="nc" id="L60">        System.out.println(&quot;\n Manual testing complete!&quot;);</span>
+<span class="nc" id="L61">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

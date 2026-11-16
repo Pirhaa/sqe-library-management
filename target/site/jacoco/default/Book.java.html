@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Book.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">sqe-library-management</a> &gt; <a href="index.source.html" class="el_package">default</a> &gt; <span class="el_source">Book.java</span></div><h1>Book.java</h1><pre class="source lang-java linenums">public class Book {
+    private String bookId;
+    private String title;
+    private String author;
+    private boolean isIssued;
+
+<span class="fc" id="L7">    public Book(String bookId, String title, String author) {</span>
+<span class="fc" id="L8">        this.bookId = bookId;</span>
+<span class="fc" id="L9">        this.title = title;</span>
+<span class="fc" id="L10">        this.author = author;</span>
+<span class="fc" id="L11">        this.isIssued = false;</span>
+<span class="fc" id="L12">    }</span>
+
+<span class="fc" id="L14">    public String getBookId() { return bookId; }</span>
+<span class="fc" id="L15">    public String getTitle()  { return title; }</span>
+<span class="fc" id="L16">    public String getAuthor() { return author; }</span>
+<span class="fc" id="L17">    public boolean isIssued() { return isIssued; }</span>
+<span class="fc" id="L18">    public void setIssued(boolean issued) { isIssued = issued; }</span>
+
+    public String toString() {
+<span class="fc" id="L21">        return bookId + &quot; | &quot; + title + &quot; | &quot; + author + &quot; | &quot; +</span>
+<span class="fc bfc" id="L22" title="All 2 branches covered.">               (isIssued ? &quot;Issued&quot; : &quot;Available&quot;);</span>
+    }
+
+    // ISBN validation
+    public static boolean validateIsbn(String isbn) {
+<span class="fc bfc" id="L27" title="All 2 branches covered.">        if (isbn == null) return false;</span>
+<span class="fc" id="L28">        isbn = isbn.replace(&quot;-&quot;, &quot;&quot;).trim();</span>
+<span class="fc bfc" id="L29" title="All 2 branches covered.">        if (isbn.length() != 10) return false;</span>
+
+<span class="fc" id="L31">        int sum = 0;</span>
+<span class="fc bfc" id="L32" title="All 2 branches covered.">        for (int i = 0; i &lt; 10; i++) {</span>
+<span class="fc" id="L33">            char c = isbn.charAt(i);</span>
+            int value;
+<span class="pc bpc" id="L35" title="1 of 6 branches missed.">            if (i == 9 &amp;&amp; (c == 'X' || c == 'x')) value = 10;</span>
+<span class="fc bfc" id="L36" title="All 2 branches covered.">            else if (Character.isDigit(c))        value = c - '0';</span>
+<span class="fc" id="L37">            else                                   return false;</span>
+<span class="fc" id="L38">            sum = sum + value * (10 - i);</span>
+        }
+<span class="fc bfc" id="L40" title="All 2 branches covered.">        return sum % 11 == 0;</span>
+    }
+
+    // ---------- Test Helper ----------
+<span class="fc" id="L44">    static int passed = 0, failed = 0;</span>
+
+    static void check(String name, boolean condition) {
+<span class="nc bnc" id="L47" title="All 2 branches missed.">        if (condition) { System.out.println(&quot;PASS : &quot; + name); passed++; }</span>
+<span class="nc" id="L48">        else           { System.out.println(&quot;FAIL : &quot; + name); failed++; }</span>
+<span class="nc" id="L49">    }</span>
+
+    // ---------- Main — Sirf 5 ISBN Tests ----------
+    public static void main(String[] args) {
+<span class="nc" id="L53">        System.out.println(&quot;===== ISBN Validation Tests =====\n&quot;);</span>
+
+<span class="nc" id="L55">        check(&quot;Test 1: valid ISBN 0306406152&quot;,   validateIsbn(&quot;0306406152&quot;));</span>
+<span class="nc" id="L56">        check(&quot;Test 2: valid ISBN with dashes&quot;,  validateIsbn(&quot;0-306-40615-2&quot;));</span>
+<span class="nc" id="L57">        check(&quot;Test 3: valid ISBN ending in X&quot;,  validateIsbn(&quot;097522980X&quot;));</span>
+<span class="nc bnc" id="L58" title="All 2 branches missed.">        check(&quot;Test 4: invalid length rejected&quot;, !validateIsbn(&quot;12345&quot;));</span>
+<span class="nc bnc" id="L59" title="All 2 branches missed.">        check(&quot;Test 5: wrong checksum rejected&quot;, !validateIsbn(&quot;0306406153&quot;));</span>
+
+<span class="nc" id="L61">        System.out.println(&quot;\n----- Summary -----&quot;);</span>
+<span class="nc" id="L62">        System.out.println(&quot;Passed : &quot; + passed);</span>
+<span class="nc" id="L63">        System.out.println(&quot;Failed : &quot; + failed);</span>
+<span class="nc" id="L64">        System.out.println(&quot;Total  : &quot; + (passed + failed));</span>
+<span class="nc" id="L65">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

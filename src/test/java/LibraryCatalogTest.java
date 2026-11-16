@@ -72,11 +72,9 @@ public class LibraryCatalogTest {
     /**
      * TASK 3 (Test 1) — Success path.
      * Mock BufferedWriter + FileWriter so no real file is written.
-     * Verify write() and newLine() were called twice each (2 books).
      */
     @Test
     public void exportCatalog_success() throws Exception {
-        // Arrange — add 2 books
         catalog.addBook(new Book("B001", "Clean Code", "R. Martin"));
         catalog.addBook(new Book("B002", "Pragmatic Programmer", "D. Thomas"));
 
@@ -89,13 +87,9 @@ public class LibraryCatalogTest {
                          doNothing().when(mock).close();
                      })) {
 
-            // Act
             catalog.exportCatalog("dummy.txt");
 
-            // Assert — BufferedWriter was constructed exactly once
             assertEquals(1, m2.constructed().size());
-
-            // Verify write() + newLine() were called twice each
             BufferedWriter created = m2.constructed().get(0);
             verify(created, times(2)).write(anyString());
             verify(created, times(2)).newLine();
@@ -106,28 +100,27 @@ public class LibraryCatalogTest {
 
     /**
      * TASK 3 (Test 2) — Failure path.
-     * Mock FileWriter construction to throw IOException (Python's OSError).
-     * Assert exportCatalog wraps it in LibraryIOException.
+     * Use an invalid path so FileWriter throws a REAL IOException,
+     * and exportCatalog() wraps it into LibraryIOException.
      */
     @Test
     public void exportCatalog_ioFailure() {
-        try (MockedConstruction<FileWriter> mocked = Mockito.mockConstruction(
-                FileWriter.class,
-                (mock, ctx) -> { throw new IOException("simulated disk failure"); })) {
+        catalog.addBook(new Book("B001", "Clean Code", "R. Martin"));
 
-            catalog.addBook(new Book("B001", "Clean Code", "R. Martin"));
+        // Invalid path -> FileWriter throws IOException
+        String invalidPath = "/nonexistent-dir-xyz/subdir/file.txt";
 
-            // Act + Assert
-            LibraryIOException ex = assertThrows(
-                    LibraryIOException.class,
-                    () -> catalog.exportCatalog("some-path.txt")
-            );
+        LibraryIOException ex = assertThrows(
+                LibraryIOException.class,
+                () -> catalog.exportCatalog(invalidPath)
+        );
 
-            assertTrue(ex.getMessage().contains("Failed to export"));
-            assertTrue(ex.getCause() instanceof IOException);
+        assertTrue("Message should mention export failure",
+                ex.getMessage().contains("Failed to export"));
+        assertTrue("Cause should be the raw IOException",
+                ex.getCause() instanceof IOException);
 
-            line("T3", "exportCatalog_ioFailure",
-                    "LibraryIOException", "LibraryIOException");
-        }
+        line("T3", "exportCatalog_ioFailure",
+                "LibraryIOException", "LibraryIOException");
     }
 }
