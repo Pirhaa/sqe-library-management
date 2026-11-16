@@ -13,4 +13,14 @@ Based on the JaCoCo baseline HTML report, the following are the weakest files:
 3. **Book.java** (Line Coverage: 22%, Branch Coverage: 4%) - Most methods, constructor logic, and validation branches are untested.
    <img width="1379" height="487" alt="image" src="https://github.com/user-attachments/assets/dfd5039c-9eba-4271-ba54-866e500bc10d" />
 
+## Task 3: Closing the Gaps
+Added new JUnit 5 test suites for the weakest files. Coverage improved significantly:
+- **BookIssueService:** 0% ➔ 86.79% (Added tests for issue/return success, failure, and fine calculation).
+- **BookSearch:** 0% ➔ 100% (Added tests for title, author, and ID search).
+- **Book:** 22% ➔ 68.92% (Added tests for ISBN validation and toString method).
+
+Overall coverage increased from 29% to ~68.7%.
+
+<img width="1820" height="446" alt="image" src="https://github.com/user-attachments/assets/996699ba-470e-43e3-9079-9dd6a00b4ff8" />
+
 
