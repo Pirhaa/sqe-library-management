@@ -1,4 +1,4 @@
-<img width="1399" height="502" alt="image" src="https://github.com/user-attachments/assets/d420e892-5fbd-45fc-b47b-9a3d625d371e" /># LAB 11 - Coverage Notes
+# LAB 11 - Coverage Notes
 
 ## Task 1: Baseline Report
 - **Baseline Line Coverage:** 29%
