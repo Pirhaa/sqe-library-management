@@ -33,3 +33,9 @@ It didn't verify *who* the book was issued to. If a bug caused the book to be is
 
 **Strengthening the Test:**
 We strengthened the assertion to verify the actual state change. Instead of just checking a boolean, we now test that the member can successfully return the book, proving the book was correctly linked to that specific member.
+
+
+## Task 5: Enforce a Threshold
+- Added `--cov-fail-under` (JaCoCo `check` goal) in `pom.xml`.
+- The threshold is set to `0.85` (85%) for Line coverage.
+- If future changes cause coverage to drop below 85%, the build will fail, ensuring CI pipelines (Lab 14) catch regressions automatically.
