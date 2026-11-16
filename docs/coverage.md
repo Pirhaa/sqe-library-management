@@ -23,4 +23,13 @@ Overall coverage increased from 29% to ~68.7%.
 
 <img width="1820" height="446" alt="image" src="https://github.com/user-attachments/assets/996699ba-470e-43e3-9079-9dd6a00b4ff8" />
 
+## Task 4: Coverage vs. Quality (Coverage Trap)
 
+**The Coverage Trap:** 
+In our test suite, `testIssueBook_Success()` was a coverage trap. It executed the `issueBook()` method and gave us green lines on the coverage report. However, its assertions were weak. It only checked `assertTrue(book.isIssued())`.
+
+**Why it was weak:** 
+It didn't verify *who* the book was issued to. If a bug caused the book to be issued to the wrong member, the test would still pass because the boolean `isIssued` was true.
+
+**Strengthening the Test:**
+We strengthened the assertion to verify the actual state change. Instead of just checking a boolean, we now test that the member can successfully return the book, proving the book was correctly linked to that specific member.
