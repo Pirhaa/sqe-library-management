@@ -7,3 +7,23 @@ Content-Type: application/json
   "author": "Robert Martin",
   "totalCopies": 2
 }
+
+### 5. POST /books (Missing Title - Invalid)
+POST http://localhost:8080/books
+Content-Type: application/json
+
+{
+  "isbn": "999",
+  "author": "Unknown",
+  "totalCopies": 1
+}
+
+### 8. POST /books (Missing ISBN - Invalid)
+POST http://localhost:8080/books
+Content-Type: application/json
+
+{
+  "title": "Book Without ISBN",
+  "author": "Unknown",
+  "totalCopies": 1
+}
