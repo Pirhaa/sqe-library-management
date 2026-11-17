@@ -1,0 +1,9 @@
+POST http://localhost:8080/books
+Content-Type: application/json
+
+{
+  "title": "Clean Code",
+  "isbn": "12345",
+  "author": "Robert Martin",
+  "totalCopies": 2
+}

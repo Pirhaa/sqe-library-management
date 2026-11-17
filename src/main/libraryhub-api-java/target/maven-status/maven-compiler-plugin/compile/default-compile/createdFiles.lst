@@ -1,0 +1,6 @@
+edu\sqe\libraryhub\ApiException.class
+edu\sqe\libraryhub\LibraryService.class
+edu\sqe\libraryhub\Book.class
+edu\sqe\libraryhub\ApiExceptionHandler.class
+edu\sqe\libraryhub\LibraryController.class
+edu\sqe\libraryhub\LibraryHubApplication.class
