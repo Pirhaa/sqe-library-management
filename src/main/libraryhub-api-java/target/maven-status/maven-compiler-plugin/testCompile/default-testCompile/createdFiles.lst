@@ -1,2 +1,3 @@
+edu\sqe\libraryhub\NegativeApiTest.class
 edu\sqe\libraryhub\PositiveApiTest.class
 edu\sqe\libraryhub\ApiTestBase.class
