@@ -1,4 +1,5 @@
 package edu.sqe.libraryhub;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class Book {
     private final String isbn;
@@ -18,6 +19,7 @@ public class Book {
     public String getIsbn() { return isbn; }
     public String getTitle() { return title; }
     public String getAuthor() { return author; }
+   @JsonIgnore
     public int getTotalCopies() { return totalCopies; }
     public int getAvailableCopies() { return availableCopies; }
     public void setAvailableCopies(int n) { this.availableCopies = n; }

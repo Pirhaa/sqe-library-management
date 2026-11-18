@@ -23,7 +23,7 @@ import java.util.List;
 <span class="fc" id="L23">        int count = 0;</span>
 <span class="fc bfc" id="L24" title="All 2 branches covered.">        for (Book b : books) {</span>
 <span class="pc bpc" id="L25" title="1 of 2 branches missed.">            if (!b.isIssued()) count++;</span>
-        }
+<span class="fc" id="L26">        }</span>
 <span class="fc" id="L27">        return count;</span>
     }
 
@@ -39,7 +39,7 @@ import java.util.List;
 <span class="fc" id="L39">                b.setIssued(true);</span>
 <span class="fc" id="L40">                return true;</span>
             }
-        }
+<span class="fc" id="L42">        }</span>
 <span class="fc" id="L43">        return false;</span>
     }
 
@@ -51,10 +51,10 @@ import java.util.List;
 <span class="fc bfc" id="L51" title="All 2 branches covered.">            for (Book b : books) {</span>
 <span class="fc" id="L52">                writer.write(b.toString());</span>
 <span class="fc" id="L53">                writer.newLine();</span>
-            }
+<span class="fc" id="L54">            }</span>
 <span class="fc" id="L55">        } catch (IOException e) {</span>
 <span class="fc" id="L56">            throw new LibraryIOException(&quot;Failed to export catalog to &quot; + path, e);</span>
-        }
+<span class="fc" id="L57">        }</span>
 <span class="fc" id="L58">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

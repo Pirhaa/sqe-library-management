@@ -1,6 +1,9 @@
 LibraryCatalogParamTest.class
 LibraryCatalogTest.class
 LibraryTest.class
+BookSearchTest.class
+BookTest.class
 IsbnBvaTest.class
+BookIssueServiceTest.class
 BorrowLimitBvaTest.class
 LibraryBvaTest.class
