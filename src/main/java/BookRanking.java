@@ -3,13 +3,13 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Lab 8 - Task 1 (Cycle 1): GREEN phase
- 
+ * Lab 8 - TDD Implementation (Task 1 & Task 2)
  */
 public class BookRanking {
 
     public static List<Book> rankBooksByPopularity(List<Book> books,
                                                    Map<String, Integer> borrowCounts) {
-        return new ArrayList<>(); // minimum code to pass
+        // Task 2 GREEN phase: return a copy (not fully generalised yet)
+        return new ArrayList<>(books);
     }
 }
