@@ -6,5 +6,6 @@ BookSearchTest.class
 BookTest.class
 IsbnBvaTest.class
 BookIssueServiceTest.class
+LibraryPercentileTest.class
 BorrowLimitBvaTest.class
 LibraryBvaTest.class

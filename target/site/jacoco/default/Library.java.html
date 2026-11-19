@@ -31,23 +31,34 @@
     }
 
     // ==========================================
-    // LAB 9 TASK 2: Flawed Method for Code Review
+    // LAB 9 TASK 4: Fixed Method after Code Review
     // ==========================================
-    // BUG 1: Missing Javadoc/Docstring
-    // BUG 2: Logic bug (dividing by totalMembers instead of totalMembers - 1)
-    // BUG 3: No edge case handling for single member
+    /**
+     * Calculates the borrow percentile of a member compared to all members.
+     * 
+     * @param member The member to calculate the percentile for.
+     * @param allMembers The list of all members in the library.
+     * @return The percentile rank (0 to 100).
+     */
     public static double borrowPercentile(Member member, List&lt;Member&gt; allMembers) {
-<span class="nc" id="L40">        int borrowedCount = member.getBorrowedBooks().size();</span>
-<span class="nc" id="L41">        int totalMembers = allMembers.size();</span>
-<span class="nc" id="L42">        int rankIndex = 0;</span>
+        // Edge case handling for empty or single member list (Division by zero fix)
+<span class="pc bpc" id="L45" title="1 of 4 branches missed.">        if (allMembers == null || allMembers.size() &lt;= 1) {</span>
+<span class="fc" id="L46">            return 100.0;</span>
+        }
+
+<span class="fc" id="L49">        int borrowedCount = member.getBorrowedBooks().size();</span>
+<span class="fc" id="L50">        int totalMembers = allMembers.size();</span>
+<span class="fc" id="L51">        int rankIndex = 0;</span>
         
-<span class="nc bnc" id="L44" title="All 2 branches missed.">        for (Member m : allMembers) {</span>
-<span class="nc bnc" id="L45" title="All 2 branches missed.">            if (m.getBorrowedBooks().size() &gt; borrowedCount) {</span>
-<span class="nc" id="L46">                rankIndex++;</span>
+        // Improved readability: renamed 'm' to 'otherMember'
+<span class="fc bfc" id="L54" title="All 2 branches covered.">        for (Member otherMember : allMembers) {</span>
+<span class="fc bfc" id="L55" title="All 2 branches covered.">            if (otherMember.getBorrowedBooks().size() &gt; borrowedCount) {</span>
+<span class="fc" id="L56">                rankIndex++;</span>
             }
-<span class="nc" id="L48">        }</span>
+<span class="fc" id="L58">        }</span>
         
-<span class="nc" id="L50">        return ((double) rankIndex / totalMembers) * 100;</span>
+        // Off-by-one fix: dividing by (totalMembers - 1)
+<span class="fc" id="L61">        return ((double) rankIndex / (totalMembers - 1)) * 100;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

@@ -31,22 +31,33 @@ public class Library {
     }
 
     // ==========================================
-    // LAB 9 TASK 2: Flawed Method for Code Review
+    // LAB 9 TASK 4: Fixed Method after Code Review
     // ==========================================
-    // BUG 1: Missing Javadoc/Docstring
-    // BUG 2: Logic bug (dividing by totalMembers instead of totalMembers - 1)
-    // BUG 3: No edge case handling for single member
+    /**
+     * Calculates the borrow percentile of a member compared to all members.
+     * 
+     * @param member The member to calculate the percentile for.
+     * @param allMembers The list of all members in the library.
+     * @return The percentile rank (0 to 100).
+     */
     public static double borrowPercentile(Member member, List<Member> allMembers) {
+        // Edge case handling for empty or single member list (Division by zero fix)
+        if (allMembers == null || allMembers.size() <= 1) {
+            return 100.0;
+        }
+
         int borrowedCount = member.getBorrowedBooks().size();
         int totalMembers = allMembers.size();
         int rankIndex = 0;
         
-        for (Member m : allMembers) {
-            if (m.getBorrowedBooks().size() > borrowedCount) {
+        // Improved readability: renamed 'm' to 'otherMember'
+        for (Member otherMember : allMembers) {
+            if (otherMember.getBorrowedBooks().size() > borrowedCount) {
                 rankIndex++;
             }
         }
         
-        return ((double) rankIndex / totalMembers) * 100;
+        // Off-by-one fix: dividing by (totalMembers - 1)
+        return ((double) rankIndex / (totalMembers - 1)) * 100;
     }
 }
