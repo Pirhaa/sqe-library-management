@@ -4,7 +4,13 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-        
+        {
+            "type": "java",
+            "name": "Book",
+            "request": "launch",
+            "mainClass": "Book",
+            "projectName": "sqe-library-management"
+        },
         {
             "type": "jdk",
             "request": "launch",
