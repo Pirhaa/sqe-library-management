@@ -24,3 +24,10 @@
 - [ ] Is the code optimized for performance (e.g., no unnecessary loops)?
 - [ ] Does it break any existing backward compatibility?
 
+## Lessons Learned (Retrospective)
+
+**Which checklist item caught the most valuable issue?**
+The "Correctness" checklist item (specifically looking for off-by-one errors and edge cases) was the most valuable. It helped catch the division-by-zero bug when a library has only 1 member, and the logical error of dividing by `totalMembers` instead of `totalMembers - 1`. 
+
+**One checklist item I'd add for next time:**
+"Documentation and Docstrings: Ensure every public method has a Javadoc explaining its parameters and return type." This would have caught the missing docstring issue immediately.
