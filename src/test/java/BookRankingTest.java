@@ -9,7 +9,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 /**
- * Lab 8 - TDD BookRanking Tests (Tasks 1, 2, 3 & 4)
+ * Lab 8 - TDD BookRanking Tests (Tasks 1 to 5)
  */
 public class BookRankingTest {
 
@@ -72,10 +72,25 @@ public class BookRankingTest {
         Book zebra = book("B001", "Zen of Python");
         Book apple = book("B002", "Algorithms");
         
-        
         List<Book> ranked = BookRanking.rankBooksByPopularity(
             Arrays.asList(zebra, apple), counts("B001", 5, "B002", 5));
             
         assertEquals(Arrays.asList(apple, zebra), ranked);
+    }
+
+    // ==========================================
+    // Task 5 (Cycle 5): Book missing from borrow map
+    // ==========================================
+    @Test
+    public void bookWithNoBorrowRecord_rankedLastAsZero() {
+        Book never = book("B001", "Never Borrowed"); // map mein nahi hai
+        Book popular = book("B002", "Popular");
+        Book some = book("B003", "Some");
+        
+      
+        List<Book> ranked = BookRanking.rankBooksByPopularity(
+            Arrays.asList(never, popular, some), counts("B002", 7, "B003", 2));
+        
+        assertEquals(Arrays.asList(popular, some, never), ranked);
     }
 }

@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Lab 8 - TDD Implementation (Tasks 1, 2, 3 &amp; 4)
+ * Lab 8 - TDD Implementation (Final for Tasks 1 to 5)
  */
 <span class="nc" id="L9">public class BookRanking {</span>
 
@@ -12,9 +12,9 @@ import java.util.Map;
                                                    Map&lt;String, Integer&gt; borrowCounts) {
 <span class="fc" id="L13">        List&lt;Book&gt; ranked = new ArrayList&lt;&gt;(books);</span>
         
-        // Task 4 GREEN phase: Sort by count DESC, then by Title ASC
+        // Task 5 GREEN phase: use getOrDefault() to avoid NPE
 <span class="fc" id="L16">        ranked.sort(Comparator</span>
-<span class="fc" id="L17">            .comparing((Book b) -&gt; borrowCounts.get(b.getBookId())).reversed()</span>
+<span class="fc" id="L17">            .comparing((Book b) -&gt; borrowCounts.getOrDefault(b.getBookId(), 0)).reversed()</span>
 <span class="fc" id="L18">            .thenComparing(Book::getTitle));</span>
             
 <span class="fc" id="L20">        return ranked;</span>
