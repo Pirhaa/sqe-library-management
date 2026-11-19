@@ -3,14 +3,19 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Lab 8 - TDD Implementation (Task 1 &amp; Task 2)
+ * Lab 8 - TDD Implementation (Tasks 1, 2 &amp; 3)
  */
 <span class="nc" id="L8">public class BookRanking {</span>
 
     public static List&lt;Book&gt; rankBooksByPopularity(List&lt;Book&gt; books,
                                                    Map&lt;String, Integer&gt; borrowCounts) {
-        // Task 2 GREEN phase: return a copy (not fully generalised yet)
-<span class="fc" id="L13">        return new ArrayList&lt;&gt;(books);</span>
+        // Task 1 &amp; 2: Create a new list (copy of input)
+<span class="fc" id="L13">        List&lt;Book&gt; ranked = new ArrayList&lt;&gt;(books);</span>
+        
+        // Task 3: Sort by borrow count in descending order
+<span class="fc" id="L16">        ranked.sort((x, y) -&gt; borrowCounts.get(y.getBookId()) - borrowCounts.get(x.getBookId()));</span>
+        
+<span class="fc" id="L18">        return ranked;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

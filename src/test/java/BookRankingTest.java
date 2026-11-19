@@ -9,12 +9,25 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 /**
- * Lab 8 - TDD BookRanking Tests
+ * Lab 8 - TDD BookRanking Tests (Tasks 1, 2 & 3)
  */
 public class BookRankingTest {
 
+    // --- Helpers (Task 3 Refactor Phase) ---
+    private static Book book(String id, String title) {
+        return new Book(id, title, "Author");
+    }
+
+    private static Map<String, Integer> counts(Object... idCountPairs) {
+        Map<String, Integer> m = new HashMap<>();
+        for (int i = 0; i < idCountPairs.length; i += 2) {
+            m.put((String) idCountPairs[i], (Integer) idCountPairs[i + 1]);
+        }
+        return m;
+    }
+
     // ==========================================
-    // Task 1 (Cycle 1): Empty catalog returns empty list
+    // Task 1 (Cycle 1): Empty catalog
     // ==========================================
     @Test
     public void emptyCatalog_returnsEmptyList() {
@@ -24,17 +37,31 @@ public class BookRankingTest {
     }
 
     // ==========================================
-    // Task 2 (Cycle 2): Single book returns list with that book
+    // Task 2 (Cycle 2): Single book
     // ==========================================
     @Test
     public void singleBook_returnsListWithThatBook() {
-        Book b = new Book("B001", "Clean Code", "R. Martin");
-        Map<String, Integer> counts = new HashMap<>();
-        counts.put("B001", 4);
-        
-        List<Book> ranked = BookRanking.rankBooksByPopularity(Arrays.asList(b), counts);
+        Book b = book("B001", "Clean Code");
+        List<Book> ranked = BookRanking.rankBooksByPopularity(
+            Arrays.asList(b), counts("B001", 4));
         
         assertEquals(1, ranked.size());
         assertEquals(b, ranked.get(0));
+    }
+
+    // ==========================================
+    // Task 3 (Cycle 3): Descending Sort
+    // ==========================================
+    @Test
+    public void threeBooks_orderedByBorrowCountDescending() {
+        Book a = book("B001", "Clean Code");
+        Book b = book("B002", "Refactoring");
+        Book c = book("B003", "Pragmatic Programmer");
+        
+        List<Book> ranked = BookRanking.rankBooksByPopularity(
+            Arrays.asList(a, b, c), counts("B001", 3, "B002", 9, "B003", 5));
+        
+        // Expected order: B002 (9), B003 (5), B001 (3)
+        assertEquals(Arrays.asList(b, c, a), ranked);
     }
 }
