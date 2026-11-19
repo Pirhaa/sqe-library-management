@@ -9,11 +9,11 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 /**
- * Lab 8 - TDD BookRanking Tests (Tasks 1, 2 & 3)
+ * Lab 8 - TDD BookRanking Tests (Tasks 1, 2, 3 & 4)
  */
 public class BookRankingTest {
 
-    // --- Helpers (Task 3 Refactor Phase) ---
+    // --- Helpers ---
     private static Book book(String id, String title) {
         return new Book(id, title, "Author");
     }
@@ -61,7 +61,21 @@ public class BookRankingTest {
         List<Book> ranked = BookRanking.rankBooksByPopularity(
             Arrays.asList(a, b, c), counts("B001", 3, "B002", 9, "B003", 5));
         
-        // Expected order: B002 (9), B003 (5), B001 (3)
         assertEquals(Arrays.asList(b, c, a), ranked);
+    }
+
+    // ==========================================
+    // Task 4 (Cycle 4): Tie-Breaking (Alphabetical)
+    // ==========================================
+    @Test
+    public void equalBorrowCounts_sortedAlphabeticallyByTitle() {
+        Book zebra = book("B001", "Zen of Python");
+        Book apple = book("B002", "Algorithms");
+        
+        
+        List<Book> ranked = BookRanking.rankBooksByPopularity(
+            Arrays.asList(zebra, apple), counts("B001", 5, "B002", 5));
+            
+        assertEquals(Arrays.asList(apple, zebra), ranked);
     }
 }
